@@ -6,17 +6,21 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-// cmd
-// git config --global user.email "dohyung97022@gmail.com"
-// git config --global user.name "doe"
+//Column type to add or modify column in tables
+//Check mysqlfunc.DataType for suggestions of dataType
+//DataTypeParam is for stuff like VARCHAR(dataTypeParam)
+type Column struct {
+	name          string
+	dataType      int
+	dataTypeParam int
+}
 
-// add
-// git add .
-// git commit -m "commit_text"
-// git push origin master
-
-// sqlStr := "id:password@tcp(adiy-db.cxdzwqqcqoib.us-east-1.rds.amazonaws.com:3306)/adiy"
-// queryStr := "SELECT * FROM channels"
+var (
+	//DataTypeInt of type INT
+	DataTypeInt = 0
+	//DataTypeVarChar of type VarChar
+	DataTypeVarChar = 1
+)
 
 //GetData to get a map[int][string]interface
 func GetData(queryStr string, sqlStr string) (map[int]map[string]interface{}, error) {
@@ -60,3 +64,15 @@ func GetData(queryStr string, sqlStr string) (map[int]map[string]interface{}, er
 	}
 	return tableData, nil
 }
+
+// cmd
+// git config --global user.email "dohyung97022@gmail.com"
+// git config --global user.name "doe"
+
+// add
+// git add .
+// git commit -m "commit_text"
+// git push origin master
+
+// sqlStr := "id:password@tcp(adiy-db.cxdzwqqcqoib.us-east-1.rds.amazonaws.com:3306)/adiy"
+// queryStr := "SELECT * FROM channels"
