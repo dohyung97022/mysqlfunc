@@ -8,6 +8,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
+// testing for sure
 //Column type to add or modify column in tables
 //Check mysqlfunc.DataType for suggestions of dataType
 //DataTypeParam is for stuff like VARCHAR(dataTypeParam)
@@ -74,7 +75,7 @@ func GetData(queryStr string, db *sql.DB) (map[int]map[string]interface{}, error
 
 // GetColNames to a get all column names
 func GetColNames(table string, db *sql.DB) (colNames []string, err error) {
-	rows, err := db.Query("SELECT * FROM " + table + "LIMIT 0 , 1")
+	rows, err := db.Query("SELECT * FROM " + table + " LIMIT 1")
 	if err != nil {
 		return nil, err
 	}
@@ -103,8 +104,22 @@ func main() {
 	if err != nil {
 		fmt.Printf("error : %v\n", err)
 	}
+	colNamesArray, err := GetColNames("channels", db)
+	if err != nil {
+		fmt.Printf("error : %v\n", err)
+	}
+	fmt.Printf("colNamesArray : %v\n", colNamesArray)
+
+	defer db.Close()
 }
 
 // cmd
 // git config --global user.email "dohyung97022@gmail.com"
 // git config --global user.name "doe"
+
+// add
+// git add .
+// git commit -m "."
+// git push origin master
+// TIMEOUT 1
+// go get -u github.com/dohyung97022/mysqlfunc
