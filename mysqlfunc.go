@@ -10,14 +10,16 @@ import (
 // git config --global user.email "dohyung97022@gmail.com"
 // git config --global user.name "doe"
 
+// download
 // git clone https://github.com/dohyung97022/mysqlfunc
 
+// add
 // git add .
 // git commit -m "commit_text"
 // git push origin master
 
-// queryStr := "username:password@tcp(adiy-db.cxdzwqqcqoib.us-east-1.rds.amazonaws.com:3306)/adiy"
-// sqlStr := "SELECT * FROM channels"
+// sqlStr := "id:password@tcp(adiy-db.cxdzwqqcqoib.us-east-1.rds.amazonaws.com:3306)/adiy"
+// queryStr := "SELECT * FROM channels"
 
 //GetData to get a map[int][string]interface
 func GetData(queryStr string, sqlStr string) (map[int]map[string]interface{}, error) {

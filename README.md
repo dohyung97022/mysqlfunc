@@ -5,8 +5,8 @@
 Make mysql parameters.
 
 ```go
-queryStr := "username:password@tcp(post-aws-rds-database-endpoint:3306)/post-schema-name"
-sqlStr := "SELECT * FROM my_table"
+sqlStr := "username:password@tcp(post-aws-rds-database-endpoint:3306)/post-schema-name"
+queryStr := "SELECT * FROM my_table"
 ```
 
 Send parameters to functions.
