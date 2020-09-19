@@ -4,11 +4,8 @@
 
 Import
 
-```cmd
-go get github.com/dohyung97022/mysqlfunc
-```
-
 ```go
+go get github.com/dohyung97022/mysqlfunc
 import("github.com/dohyung97022/mysqlfunc")
 ```
 
