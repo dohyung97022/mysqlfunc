@@ -10,9 +10,9 @@ import (
 //Check mysqlfunc.DataType for suggestions of dataType
 //DataTypeParam is for stuff like VARCHAR(dataTypeParam)
 type Column struct {
-	name          string
-	dataType      int
-	dataTypeParam int
+	Name          string
+	DataType      int
+	DataTypeParam int
 }
 
 var (
