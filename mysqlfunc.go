@@ -15,11 +15,13 @@ type Column struct {
 	dataTypeParam int
 }
 
-//DataTypeInt of type INT
-var DataTypeInt = 0
+var (
+	//DataTypeInt of type INT
+	DataTypeInt = 0
 
-//DataTypeVarChar of type VarChar
-var DataTypeVarChar = 1
+	//DataTypeVarChar of type VarChar
+	DataTypeVarChar = 1
+)
 
 //GetData to get a map[int][string]interface
 func GetData(queryStr string, sqlStr string) (map[int]map[string]interface{}, error) {
@@ -75,3 +77,6 @@ func GetData(queryStr string, sqlStr string) (map[int]map[string]interface{}, er
 
 // sqlStr := "id:password@tcp(adiy-db.cxdzwqqcqoib.us-east-1.rds.amazonaws.com:3306)/adiy"
 // queryStr := "SELECT * FROM channels"
+
+//go get github.com/dohyung97022/mysqlfunc
+//go get -u github.com/dohyung97022/mysqlfunc
