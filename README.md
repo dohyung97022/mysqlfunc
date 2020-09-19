@@ -1,6 +1,6 @@
 # mysqlfunc
 
-go functions for simple mysql
+## go functions for simple mysql
 
 Make mysql parameters.
 
