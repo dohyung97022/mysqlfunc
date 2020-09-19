@@ -23,13 +23,18 @@ var (
 	DataTypeVarChar = 1
 )
 
-//GetData to get a map[int][string]interface
-func GetData(queryStr string, sqlStr string) (map[int]map[string]interface{}, error) {
+//Init to initiate db
+func Init(sqlStr string) (*sql.DB, error) {
 	db, err := sql.Open("mysql", sqlStr)
 	if err != nil {
 		return nil, err
 	}
-	defer db.Close()
+	return db, nil
+}
+
+//GetData to get a map[int][string]interface
+func GetData(queryStr string, db *sql.DB) (map[int]map[string]interface{}, error) {
+
 	rows, err := db.Query(queryStr)
 	if err != nil {
 		return nil, err
@@ -64,6 +69,11 @@ func GetData(queryStr string, sqlStr string) (map[int]map[string]interface{}, er
 		a++
 	}
 	return tableData, nil
+}
+
+//InsertData to a table
+func InsertData() {
+
 }
 
 // cmd
