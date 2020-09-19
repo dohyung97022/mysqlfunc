@@ -10,9 +10,6 @@ import (
 // git config --global user.email "dohyung97022@gmail.com"
 // git config --global user.name "doe"
 
-// download
-// git clone https://github.com/dohyung97022/mysqlfunc
-
 // add
 // git add .
 // git commit -m "commit_text"
