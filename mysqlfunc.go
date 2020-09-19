@@ -15,12 +15,11 @@ type Column struct {
 	dataTypeParam int
 }
 
-var (
-	//DataTypeInt of type INT
-	DataTypeInt = 0
-	//DataTypeVarChar of type VarChar
-	DataTypeVarChar = 1
-)
+//DataTypeInt of type INT
+var DataTypeInt = 0
+
+//DataTypeVarChar of type VarChar
+var DataTypeVarChar = 1
 
 //GetData to get a map[int][string]interface
 func GetData(queryStr string, sqlStr string) (map[int]map[string]interface{}, error) {
