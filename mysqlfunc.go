@@ -82,7 +82,7 @@ func InsertData() {
 
 // add
 // git add .
-// git commit -m "commit_text"
+// git commit -m "."
 // git push origin master
 
 // sqlStr := "id:password@tcp(adiy-db.cxdzwqqcqoib.us-east-1.rds.amazonaws.com:3306)/adiy"
