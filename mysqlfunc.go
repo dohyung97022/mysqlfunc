@@ -72,12 +72,23 @@ func GetData(queryStr string, db *sql.DB) (map[int]map[string]interface{}, error
 	return tableData, nil
 }
 
-//InsertRow to a table
-// func InsertRow(table string) {
-// 	result, err := db.Query("INSERT INTO " + table + "")
-// }
+// GetColNames to a get all column names
+func GetColNames(table string, db *sql.DB) (colNames []string, err error) {
+	rows, err := db.Query("SELECT * FROM " + table + "LIMIT 0 , 1")
+	if err != nil {
+		return nil, err
+	}
+	columns, err := rows.Columns()
+	if err != nil {
+		return nil, err
+	}
+	for _, col := range columns {
+		colNames = append(colNames, col)
+	}
+	return colNames, nil
+}
 
-func mysqlfunc() {
+func main() {
 	fmt.Print("ps: ")
 	var ps string
 	fmt.Scanln(&ps)
@@ -88,24 +99,12 @@ func mysqlfunc() {
 		fmt.Printf("error : %v\n", err)
 	}
 	queryStr := "SELECT * FROM channels"
-	v, err := GetData(queryStr, db)
+	_, err = GetData(queryStr, db)
 	if err != nil {
 		fmt.Printf("error : %v\n", err)
 	}
-	fmt.Printf("v : %v\n", v)
 }
 
 // cmd
 // git config --global user.email "dohyung97022@gmail.com"
 // git config --global user.name "doe"
-
-// add
-// git add .
-// git commit -m "."
-// git push origin master
-
-// sqlStr := "id:password@tcp(adiy-db.cxdzwqqcqoib.us-east-1.rds.amazonaws.com:3306)/adiy"
-// queryStr := "SELECT * FROM channels"
-
-//go get github.com/dohyung97022/mysqlfunc
-//go get -u github.com/dohyung97022/mysqlfunc
