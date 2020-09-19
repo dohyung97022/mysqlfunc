@@ -2,6 +2,16 @@
 
 ## go functions for simple mysql
 
+Import
+
+```cmd
+go get github.com/dohyung97022/mysqlfunc
+```
+
+```go
+import("github.com/dohyung97022/mysqlfunc")
+```
+
 Initiate mysql parameters.
 
 ```go
