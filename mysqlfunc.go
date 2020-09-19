@@ -2,6 +2,8 @@ package mysqlfunc
 
 import (
 	"database/sql"
+	"fmt"
+
 	// Need this to connect to mysql
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -34,7 +36,6 @@ func Init(sqlStr string) (*sql.DB, error) {
 
 //GetData to get a map[int][string]interface
 func GetData(queryStr string, db *sql.DB) (map[int]map[string]interface{}, error) {
-
 	rows, err := db.Query(queryStr)
 	if err != nil {
 		return nil, err
@@ -71,9 +72,27 @@ func GetData(queryStr string, db *sql.DB) (map[int]map[string]interface{}, error
 	return tableData, nil
 }
 
-//InsertData to a table
-func InsertData() {
+//InsertRow to a table
+// func InsertRow(table string) {
+// 	result, err := db.Query("INSERT INTO " + table + "")
+// }
 
+func mysqlfunc() {
+	fmt.Print("ps: ")
+	var ps string
+	fmt.Scanln(&ps)
+
+	sqlStr := "dohyung97022:" + ps + "@tcp(adiy-db.cxdzwqqcqoib.us-east-1.rds.amazonaws.com:3306)/adiy"
+	db, err := Init(sqlStr)
+	if err != nil {
+		fmt.Printf("error : %v\n", err)
+	}
+	queryStr := "SELECT * FROM channels"
+	v, err := GetData(queryStr, db)
+	if err != nil {
+		fmt.Printf("error : %v\n", err)
+	}
+	fmt.Printf("v : %v\n", v)
 }
 
 // cmd
