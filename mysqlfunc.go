@@ -9,7 +9,12 @@ import (
 // cmd
 // git config --global user.email "dohyung97022@gmail.com"
 // git config --global user.name "doe"
-// tetst
+
+// git clone https://github.com/dohyung97022/mysqlfunc
+
+// git add .
+// git commit -m "commit_text"
+// git push origin master
 
 // queryStr := "username:password@tcp(adiy-db.cxdzwqqcqoib.us-east-1.rds.amazonaws.com:3306)/adiy"
 // sqlStr := "SELECT * FROM channels"
