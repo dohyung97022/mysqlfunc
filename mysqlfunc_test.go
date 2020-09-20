@@ -6,6 +6,7 @@ import (
 )
 
 //is this now not uploading?
+//why is this uploading?
 
 func TestMain(t *testing.T) {
 	fmt.Print("ps: ")
