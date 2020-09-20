@@ -5,8 +5,6 @@ import (
 	"testing"
 )
 
-//commited?
-
 func TestMain(t *testing.T) {
 	ps := ""
 

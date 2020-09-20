@@ -11,7 +11,7 @@ goto LOOP
 
 
 :YES
-git update-index --no--assume-unchanged "mysqlfunc_test.go"
+git update-index --no-assume-unchanged "mysqlfunc_test.go"
 git add .
 git commit -m "."
 git push origin master
