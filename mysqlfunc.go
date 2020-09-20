@@ -88,7 +88,8 @@ func GetColNames(table string, db *sql.DB) (colNames []string, err error) {
 	return colNames, nil
 }
 
-func main() {
+// TestMain for testing package
+func TestMain() {
 	fmt.Print("ps: ")
 	var ps string
 	fmt.Scanln(&ps)
@@ -103,6 +104,13 @@ func main() {
 	if err != nil {
 		fmt.Printf("error : %v\n", err)
 	}
+	colNamesArray, err := GetColNames("channels", db)
+	if err != nil {
+		fmt.Printf("error : %v\n", err)
+	}
+	fmt.Printf("colNamesArray : %v\n", colNamesArray)
+
+	defer db.Close()
 }
 
 // cmd
