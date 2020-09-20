@@ -48,14 +48,19 @@ v, err := mysqlfunc.GetQuery(queryStr) (map[int]map[string]interface{}, error)
 
 #### InsertData
 
-Insert data to a table  
-DataNames and data must be in the same order.
+Insert data to a table (DataNames and data must be in the same order)
+
+```go
+err = InsertData("test", dataNames, data) (error)
+return error
+```
+
+example
 
 ```go
 dataNames := []string{"abouts_varchar", "age_int", "birth_date_time", "male_bool"}
 var data []interface{}
 data = append(data, "Hello, world", 24, time.Now(), true)
-
 err = InsertData("test", dataNames, data) (error)
 ```
 
@@ -65,8 +70,7 @@ Get all column names from a table
 
 ```go
 v, err := mysqlfunc.GetColNames(table string) (colNames []string, err error)
-
-// v = [id name comment]
+return [id name comment]
 ```
 
 #### GetColNameTypes
@@ -75,6 +79,5 @@ Get all column names and types
 
 ```go
 v, err := mysqlfunc.GetColNameTypes(table string) (map[string]interface{}, error)
-
-// v = [id:int name:varchar comment:varchar]
+return [id:int name:varchar comment:varchar]
 ```
