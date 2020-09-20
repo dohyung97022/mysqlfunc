@@ -39,6 +39,8 @@ v, err := mysqlfunc.GetQuery(queryStr)
 most basic way to get any data by query
 
 ```go
+queryStr := "SELECT * FROM my_table"
+
 v, err := mysqlfunc.GetQuery(queryStr) (map[int]map[string]interface{}, error)
 
 // v = map[0:map[id:1 name:Jhon comment:Thank] 1:map[id:2 name:Sam comment:You]]
