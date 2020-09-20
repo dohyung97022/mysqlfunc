@@ -6,6 +6,7 @@ import (
 )
 
 func TestMain(t *testing.T) {
+	//always delete password before save!!!!
 	ps := ""
 
 	sqlStr := "dohyung97022:" + ps + "@tcp(adiy-db.cxdzwqqcqoib.us-east-1.rds.amazonaws.com:3306)/adiy"
@@ -13,16 +14,11 @@ func TestMain(t *testing.T) {
 	if err != nil {
 		fmt.Printf("error : %v\n", err)
 	}
-	queryStr := "SELECT * FROM channels"
-	_, err = GetData(queryStr, db)
-	if err != nil {
-		fmt.Printf("error : %v\n", err)
-	}
-	colNamesArray, err := GetColNames("channels", db)
-	if err != nil {
-		fmt.Printf("error : %v\n", err)
-	}
-	fmt.Printf("colNamesArray : %v\n", colNamesArray)
-
 	defer db.Close()
+
+	v, err := GetColNameTypes("channels", db)
+	if err != nil {
+		fmt.Printf("error : %v\n", err)
+	}
+	fmt.Printf("v : %v\n", v)
 }

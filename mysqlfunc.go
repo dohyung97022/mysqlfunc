@@ -2,6 +2,7 @@ package mysqlfunc
 
 import (
 	"database/sql"
+	"errors"
 
 	// Need this to connect to mysql
 	_ "github.com/go-sql-driver/mysql"
@@ -73,7 +74,7 @@ func GetData(queryStr string, db *sql.DB) (map[int]map[string]interface{}, error
 
 // GetColNames to a get all column names
 func GetColNames(table string, db *sql.DB) (colNames []string, err error) {
-	rows, err := db.Query("SELECT * FROM " + table + "LIMIT 0 , 1")
+	rows, err := db.Query("SELECT * FROM " + table + " LIMIT 1")
 	if err != nil {
 		return nil, err
 	}
@@ -85,4 +86,46 @@ func GetColNames(table string, db *sql.DB) (colNames []string, err error) {
 		colNames = append(colNames, col)
 	}
 	return colNames, nil
+}
+
+// GetColNameTypes to a get all column name:type
+func GetColNameTypes(table string, db *sql.DB) (map[string]interface{}, error) {
+	// "SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'adiy' AND TABLE_NAME = 'channels';"
+	rows, err := db.Query("SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" + table + "';")
+
+	columns, err := rows.Columns()
+	if err != nil {
+		return nil, err
+	}
+	count := len(columns)
+	tableData := make(map[string]interface{}, 0)
+	values := make([]interface{}, count)
+	valuePtrs := make([]interface{}, count)
+	for rows.Next() {
+		for i := 0; i < count; i++ {
+			valuePtrs[i] = &values[i]
+		}
+		rows.Scan(valuePtrs...)
+
+		var v1 string
+		val := values[0]
+		b, ok := val.([]byte)
+		if ok {
+			v1 = string(b)
+		} else {
+			return nil, errors.New("title of column is not string. v1 = " + v1)
+		}
+
+		var v2 interface{}
+		val = values[1]
+		b, ok = val.([]byte)
+		if ok {
+			v2 = string(b)
+		} else {
+			v2 = val
+		}
+
+		tableData[v1] = v2
+	}
+	return tableData, nil
 }
