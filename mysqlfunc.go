@@ -99,7 +99,7 @@ func GetColNames(table string) (colNames []string, err error) {
 }
 
 // GetColNameTypes to a get all column name:type
-func GetColNameTypes(table string) (map[string]interface{}, error) {
+func GetColNameTypes(table string) (map[string]string, error) {
 	rows, err := DB.Query("SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" + table + "';")
 
 	columns, err := rows.Columns()
@@ -107,7 +107,7 @@ func GetColNameTypes(table string) (map[string]interface{}, error) {
 		return nil, err
 	}
 	count := len(columns)
-	tableData := make(map[string]interface{}, 0)
+	tableData := make(map[string]string, 0)
 	values := make([]interface{}, count)
 	valuePtrs := make([]interface{}, count)
 	for rows.Next() {
@@ -125,13 +125,13 @@ func GetColNameTypes(table string) (map[string]interface{}, error) {
 			return nil, errors.New("title of column is not string. v1 = " + v1)
 		}
 
-		var v2 interface{}
+		var v2 string
 		val = values[1]
 		b, ok = val.([]byte)
 		if ok {
 			v2 = string(b)
 		} else {
-			v2 = val
+			return nil, errors.New("type of column is not string. v2 = " + v2)
 		}
 
 		tableData[v1] = v2

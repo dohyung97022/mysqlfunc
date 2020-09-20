@@ -67,5 +67,5 @@ v, err := mysqlfunc.GetColNames(table string) (colNames []string, err error)
 Get all column names and types
 
 ```go
-v, err := mysqlfunc.GetColNameTypes(table string) (map[string]interface{}, error)
+v, err := mysqlfunc.GetColNameTypes(table string) (map[string]string, error)
 ```
