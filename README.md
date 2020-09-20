@@ -1,9 +1,8 @@
 # mysqlfunc
-
-go functions for simple mysql
-
+### go functions for simple mysql
+***
 ## How to use
-Import
+### Import
 
 ```go
 go get github.com/dohyung97022/mysqlfunc
