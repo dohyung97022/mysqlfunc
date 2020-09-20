@@ -5,10 +5,6 @@ import (
 	"testing"
 )
 
-//is this now not uploading?
-//why is this uploading?
-//this should not upload
-
 func TestMain(t *testing.T) {
 	fmt.Print("ps: ")
 	var ps string
