@@ -10,8 +10,7 @@
 *.so
 *.dylib
 
-# Test binary, built with `go test -c`
-*mysqlfunc_test.go
+mysqlfunc_test.go
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
