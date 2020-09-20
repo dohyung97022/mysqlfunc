@@ -40,10 +40,11 @@ most basic way to get any data by query
 
 ```go
 queryStr := "SELECT * FROM my_table"
-
 v, err := mysqlfunc.GetQuery(queryStr) (map[int]map[string]interface{}, error)
-example return map[0:map[id:1 name:Jhon comment:Thank] 1:map[id:2 name:Sam comment:You]]
 ```
+
+return example  
+map[0:map[id:1 name:Jhon comment:Thank] 1:map[id:2 name:Sam comment:You]]
 
 #### InsertData
 
@@ -53,9 +54,7 @@ Insert data to a table (DataNames and data must be in the same order)
 dataNames := []string{"abouts_varchar", "age_int", "birth_date_time", "male_bool"}
 var data []interface{}
 data = append(data, "Hello, world", 24, time.Now(), true)
-
 err = InsertData("test", dataNames, data) (error)
-example return error
 ```
 
 #### GetColNames
@@ -64,8 +63,10 @@ Get all column names from a table
 
 ```go
 v, err := mysqlfunc.GetColNames(table string) (colNames []string, err error)
-example return [id name comment]
 ```
+
+return example  
+[id name comment]
 
 #### GetColNameTypes
 
@@ -73,5 +74,7 @@ Get all column names and types
 
 ```go
 v, err := mysqlfunc.GetColNameTypes(table string) (map[string]interface{}, error)
-example return [id:int name:varchar comment:varchar]
 ```
+
+return example  
+[id:int name:varchar comment:varchar]
