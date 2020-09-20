@@ -27,6 +27,7 @@ defer db.Close()
 ## functions list
 ```go
 v, err := mysqlfunc.GetData(queryStr, db) (map[int]map[string]interface{}, error)
-// map[0:map[id:1 name:Jhon] 1:map[id:2 name:Sam]]
+// example
+// v = map[0:map[id:1 name:Jhon] 1:map[id:2 name:Sam]]
 ```
 
