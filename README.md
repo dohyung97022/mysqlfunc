@@ -44,7 +44,7 @@ v, err := mysqlfunc.GetColNames(table string, db *sql.DB) (colNames []string, er
 ```
 
 #### GetColNameTypes
-Get column names and types
+Get all column names and types
 ```go
 v, err := mysqlfunc.GetColNameTypes(table string, db *sql.DB) (map[string]interface{}, error)
 
