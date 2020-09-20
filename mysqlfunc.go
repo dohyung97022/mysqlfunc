@@ -25,7 +25,7 @@ var (
 	//DataTypeVarChar of type VarChar
 	DataTypeVarChar = 1
 
-	//Db database from func Init
+	//DB database from func Init
 	DB *sql.DB
 
 	err error
@@ -44,8 +44,8 @@ func Init(sqlStr string) error {
 	return nil
 }
 
-//GetData to get a map[int][string]interface
-func GetData(queryStr string) (map[int]map[string]interface{}, error) {
+//GetQuery most basic way to get any data by query
+func GetQuery(queryStr string) (map[int]map[string]interface{}, error) {
 	rows, err := DB.Query(queryStr)
 	if err != nil {
 		return nil, err

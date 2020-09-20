@@ -25,7 +25,7 @@ err := mysqlfunc.Init(sqlStr)
 
 ```go
 queryStr := "SELECT * FROM my_table"
-v, err := mysqlfunc.GetData(queryStr)
+v, err := mysqlfunc.GetQuery(queryStr)
 ```
 
 <br />
@@ -34,14 +34,27 @@ v, err := mysqlfunc.GetData(queryStr)
 
 <br />
 
-#### GetData
+#### GetQuery
 
-Simple function to get data from mysql
+most basic way to get any data by query
 
 ```go
-v, err := mysqlfunc.GetData(queryStr) (map[int]map[string]interface{}, error)
+v, err := mysqlfunc.GetQuery(queryStr) (map[int]map[string]interface{}, error)
 
 // v = map[0:map[id:1 name:Jhon comment:Thank] 1:map[id:2 name:Sam comment:You]]
+```
+
+#### InsertData
+
+Insert data to a table  
+DataNames and data must be in the same order.
+
+```go
+dataNames := []string{"abouts_varchar", "age_int", "birth_date_time", "male_bool"}
+var data []interface{}
+data = append(data, "Hello, world", 24, time.Now(), true)
+
+err = InsertData("test", dataNames, data) (error)
 ```
 
 #### GetColNames
