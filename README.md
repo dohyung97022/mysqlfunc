@@ -1,9 +1,5 @@
-<br />
-
 # mysqlfunc
 ### go functions for simple mysql
-
-<br />
 <br />
 
 ## How to use
@@ -26,8 +22,11 @@ v, err := mysqlfunc.GetData(queryStr, db)
 ```go
 defer db.Close()
 ```
+<br />
 
-### functions list
+## functions list
 ```go
 v, err := mysqlfunc.GetData(queryStr, db) (map[int]map[string]interface{}, error)
 ```
+return value example
+map[0:map[id:1 name:Jhon] 1:map[id:2 name:Sam]]
