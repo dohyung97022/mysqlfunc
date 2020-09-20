@@ -90,7 +90,6 @@ func GetColNames(table string, db *sql.DB) (colNames []string, err error) {
 
 // GetColNameTypes to a get all column name:type
 func GetColNameTypes(table string, db *sql.DB) (map[string]interface{}, error) {
-	// "SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'adiy' AND TABLE_NAME = 'channels';"
 	rows, err := db.Query("SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" + table + "';")
 
 	columns, err := rows.Columns()
