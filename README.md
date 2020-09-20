@@ -32,6 +32,21 @@ Simple function to get data from mysql
 ```go
 v, err := mysqlfunc.GetData(queryStr, db) (map[int]map[string]interface{}, error)
 
-// v = map[0:map[id:1 name:Jhon] 1:map[id:2 name:Sam]]
+// v = map[0:map[id:1 name:Jhon comment:Thank] 1:map[id:2 name:Sam comment:You]]
 ```
 
+#### GetColNames
+Get all column names from a table
+```go
+v, err := mysqlfunc.GetColNames(table string, db *sql.DB) (colNames []string, err error)
+
+// v = [id name comment]
+```
+
+#### GetData
+Get column names and types
+```go
+v, err := mysqlfunc.GetColNameTypes(table string, db *sql.DB) (map[string]interface{}, error)
+
+// v = [id:int name:varchar comment:varchar]
+```
