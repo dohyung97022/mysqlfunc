@@ -1,1 +1,0 @@
-go get -u github.com/dohyung97022/mysqlfunc

@@ -2,7 +2,6 @@ package mysqlfunc
 
 import (
 	"database/sql"
-	"fmt"
 
 	// Need this to connect to mysql
 	_ "github.com/go-sql-driver/mysql"
@@ -87,32 +86,3 @@ func GetColNames(table string, db *sql.DB) (colNames []string, err error) {
 	}
 	return colNames, nil
 }
-
-// TestMain for testing package
-func TestMain() {
-	fmt.Print("ps: ")
-	var ps string
-	fmt.Scanln(&ps)
-
-	sqlStr := "dohyung97022:" + ps + "@tcp(adiy-db.cxdzwqqcqoib.us-east-1.rds.amazonaws.com:3306)/adiy"
-	db, err := Init(sqlStr)
-	if err != nil {
-		fmt.Printf("error : %v\n", err)
-	}
-	queryStr := "SELECT * FROM channels"
-	_, err = GetData(queryStr, db)
-	if err != nil {
-		fmt.Printf("error : %v\n", err)
-	}
-	colNamesArray, err := GetColNames("channels", db)
-	if err != nil {
-		fmt.Printf("error : %v\n", err)
-	}
-	fmt.Printf("colNamesArray : %v\n", colNamesArray)
-
-	defer db.Close()
-}
-
-// cmd
-// git config --global user.email "dohyung97022@gmail.com"
-// git config --global user.name "doe"
