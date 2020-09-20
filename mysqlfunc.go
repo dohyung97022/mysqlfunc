@@ -3,6 +3,7 @@ package mysqlfunc
 import (
 	"database/sql"
 	"errors"
+	"strings"
 
 	// Need this to connect to mysql
 	_ "github.com/go-sql-driver/mysql"
@@ -23,20 +24,29 @@ var (
 
 	//DataTypeVarChar of type VarChar
 	DataTypeVarChar = 1
+
+	//Db database from func Init
+	DB *sql.DB
+
+	err error
 )
 
 //Init to initiate db
-func Init(sqlStr string) (*sql.DB, error) {
-	db, err := sql.Open("mysql", sqlStr)
+func Init(sqlStr string) error {
+	DB, err = sql.Open("mysql", sqlStr)
 	if err != nil {
-		return nil, err
+		return err
 	}
-	return db, nil
+	err = DB.Ping()
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 //GetData to get a map[int][string]interface
-func GetData(queryStr string, db *sql.DB) (map[int]map[string]interface{}, error) {
-	rows, err := db.Query(queryStr)
+func GetData(queryStr string) (map[int]map[string]interface{}, error) {
+	rows, err := DB.Query(queryStr)
 	if err != nil {
 		return nil, err
 	}
@@ -73,8 +83,8 @@ func GetData(queryStr string, db *sql.DB) (map[int]map[string]interface{}, error
 }
 
 // GetColNames to a get all column names
-func GetColNames(table string, db *sql.DB) (colNames []string, err error) {
-	rows, err := db.Query("SELECT * FROM " + table + " LIMIT 1")
+func GetColNames(table string) (colNames []string, err error) {
+	rows, err := DB.Query("SELECT * FROM " + table + " LIMIT 1")
 	if err != nil {
 		return nil, err
 	}
@@ -89,8 +99,8 @@ func GetColNames(table string, db *sql.DB) (colNames []string, err error) {
 }
 
 // GetColNameTypes to a get all column name:type
-func GetColNameTypes(table string, db *sql.DB) (map[string]interface{}, error) {
-	rows, err := db.Query("SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" + table + "';")
+func GetColNameTypes(table string) (map[string]interface{}, error) {
+	rows, err := DB.Query("SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" + table + "';")
 
 	columns, err := rows.Columns()
 	if err != nil {
@@ -127,4 +137,31 @@ func GetColNameTypes(table string, db *sql.DB) (map[string]interface{}, error) {
 		tableData[v1] = v2
 	}
 	return tableData, nil
+}
+
+// InsertData to put a data to a table
+func InsertData(table string, dataNames []string, data []interface{}) error {
+	if len(dataNames) != len(data) {
+		return errors.New("error : InsertData parameter len(dataNames) does not match len(data)")
+	}
+	var dataNamesStr strings.Builder
+	var dataStr strings.Builder
+
+	for c, v := range dataNames {
+		dataNamesStr.WriteString(v)
+		dataStr.WriteString("?")
+		if c != len(dataNames)-1 {
+			dataNamesStr.WriteString(",")
+			dataStr.WriteString(",")
+		}
+	}
+	q, err := DB.Prepare("INSERT INTO " + table + "(" + dataNamesStr.String() + ") VALUES(" + dataStr.String() + ")")
+	if err != nil {
+		return err
+	}
+	_, err = q.Exec(data...)
+	if err != nil {
+		return err
+	}
+	return nil
 }
