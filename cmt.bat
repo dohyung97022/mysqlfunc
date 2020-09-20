@@ -1,5 +1,5 @@
 @echo off
-set /p id="type comment : "
+set /p id="Comment : "
 
 git config --global user.email "dohyung97022@gmail.com"
 git config --global user.name "Doe"
