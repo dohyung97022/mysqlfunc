@@ -43,9 +43,6 @@ queryStr := "SELECT * FROM my_table"
 v, err := mysqlfunc.GetQuery(queryStr) (map[int]map[string]interface{}, error)
 ```
 
-return example  
-map[0:map[id:1 name:Jhon comment:Thank] 1:map[id:2 name:Sam comment:You]]
-
 #### InsertData
 
 Insert data to a table (DataNames and data must be in the same order)
@@ -65,9 +62,6 @@ Get all column names from a table
 v, err := mysqlfunc.GetColNames(table string) (colNames []string, err error)
 ```
 
-return example  
-[id name comment]
-
 #### GetColNameTypes
 
 Get all column names and types
@@ -75,6 +69,3 @@ Get all column names and types
 ```go
 v, err := mysqlfunc.GetColNameTypes(table string) (map[string]interface{}, error)
 ```
-
-return example  
-[id:int name:varchar comment:varchar]
