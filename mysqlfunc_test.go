@@ -42,12 +42,20 @@ func TestMain(t *testing.T) {
 	if err != nil {
 		fmt.Printf("error : %v\n", err)
 	}
-	defer DB.Close()
-	// queryStr := "SELECT chan_id,channel,chan_url FROM channels"
-	// select data1 data2 data3 FROM TEST1
-	v, err := GetDataOfWhere("channels", []string{"chan_id", "channel", "avr_views"}, []string{"chan_id = 2", "channel = 'fdasfd'"})
+	// defer DB.Close()
+	// // queryStr := "SELECT chan_id,channel,chan_url FROM channels"
+	// // select data1 data2 data3 FROM TEST1
+	var whereArray []Where
+	whereArray = append(whereArray, Where{a: "chan_id", is: "=", b: 1})
+
+	v, err := GetDataOfWhere("channels", []string{"chan_id", "channel", "last_update"},
+		// []string{"last_update < " + "'" + time.Now().AddDate(0, 0, -1).Format("2006-01-02 15:04:05") + "'"})
+		whereArray)
 	if err != nil {
 		fmt.Printf("error : %v\n", err)
 	}
 	fmt.Printf("v : %v\n", v)
+
+	// time.Now().AddDate(0, 0, -1)
+	// fmt.Printf("v : %s\n", time.Now().AddDate(0, 0, -1).Format("2006-01-02 15:04:05"))
 }
