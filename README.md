@@ -45,7 +45,7 @@ v, err := mysqlfunc.GetQuery(queryStr) (map[int]map[string]interface{}, error)
 
 #### ExecQuery
 
-use this if you don't care about the return value and just want to execute
+use this if you don't care about the return value and just want to execute  
 this is just a wrapper for DB.Exec
 
 ```go
