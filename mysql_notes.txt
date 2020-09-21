@@ -1,0 +1,36 @@
+one to many
+https://dba.stackexchange.com/questions/21181/is-mysqls-last-insert-id-function-guaranteed-to-be-correct/21188#21188
+I think this is just fine? tested only 100 gorutines
+INSERT INTO test () VALUES (); SET @last_id = LAST_INSERT_ID(); INSERT INTO test2 (id) VALUES (@last_id);
+
+트랜잭션 도구
+START TRANSACTION;
+// COMMIT, ROLLBACK이 나올 때까지 실행되는 모든 SQL 추적
+
+COMMIT;
+// 모든 코드를 실행(문제가 없을 경우에)
+
+ROLLBACK;
+// START TRANSACTION 실행 전 상태로 되돌림(문제 생기면)
+
+START TRANSACTION;                                    //트랜잭션 시작
+SELECT * FROM my_table;                                 //초기상태 보여줌
+DELETE FROM my_table WHERE gender = 'M';    //데이터의 수정
+SELECT * FROM my_table;                                 //수정 후의 상태 보여줌
+ROLLBACK;                                               //트랜잭션이 선언되기 전 상태로 되돌아감
+SELECT * FROM my_table;                                //수정 전의 초기 상태를 보여줌
+START TRANSACTION;                                      //다시 트랜잭션 시작
+DELETE FROM my_table WHERE gender = 'M';    //수정
+COMMIT;                                                        //트랜잭션 이후 모든 동작을 적용
+SELECT * FROM my_table;                                //적용된 결과 보여줌
+
+
+-- SELECT * FROM adiy.test;
+
+-- DELETE FROM adiy.test
+-- 	WHERE id > 0
+ALTER TABLE test AUTO_INCREMENT = 0
+
+aws rds max_connection 제한과 변경방
+https://serverfault.com/questions/862387/aws-rds-connection-limits
+인스턴스에 변경 불가능한 mysqlx_max_connections이 있어서 이거에 맞춰야 구매해야 한다니 ㅜㅜ
