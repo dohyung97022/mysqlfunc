@@ -195,8 +195,17 @@ func GetDataOf(table string, colNames []string) (map[int]map[string]interface{},
 	return GetQuery(b.String())
 }
 
+// Where query
+type Where struct {
+	a  string
+	is string
+	b  interface{}
+}
+
 // GetDataOfWhere gets data that matches where. ex(where:="")
-func GetDataOfWhere(table string, colNames []string, where []string) (map[int]map[string]interface{}, error) {
+//this needs fixing for sure. make a type. like "a" "is" "b"
+//  add '' into everyting. like string int datetime all sorts of things!
+func GetDataOfWhere(table string, colNames []string, where []Where) (map[int]map[string]interface{}, error) {
 	var b strings.Builder
 	b.WriteString("SELECT ")
 	for c, v := range colNames {
@@ -209,7 +218,20 @@ func GetDataOfWhere(table string, colNames []string, where []string) (map[int]ma
 	b.WriteString(table)
 	b.WriteString(" WHERE ")
 	for c, v := range where {
-		b.WriteString(v)
+		b.WriteString(v.a)
+		b.WriteString(" ")
+		b.WriteString(v.is)
+		b.WriteString(" '")
+		switch v := v.b.(type) {
+		case int:
+			fmt.Println("int:", v)
+		case float64:
+			fmt.Println("float64:", v)
+		default:
+			fmt.Println("unknown")
+		}
+		b.WriteString(v.b.(string))
+		b.WriteString("'")
 		if c != len(where)-1 {
 			b.WriteString(" AND ")
 		}
