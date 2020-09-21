@@ -11,6 +11,8 @@ goto LOOP
 
 
 :YES
+git config --global user.email "dohyung97022@gmail.com"
+git config --global user.name "Doe"
 git update-index --no-assume-unchanged "mysqlfunc_test.go"
 git add .
 git commit -m "."

@@ -43,6 +43,15 @@ queryStr := "SELECT * FROM my_table"
 v, err := mysqlfunc.GetQuery(queryStr) (map[int]map[string]interface{}, error)
 ```
 
+#### ExecQuery
+
+use this if you don't care about the return value and just want to execute
+this is just a wrapper for DB.Exec
+
+```go
+err := mysqlfunc.ExecQuery(queryStr) error
+```
+
 #### InsertData
 
 Insert data to a table (DataNames and data must be in the same order)

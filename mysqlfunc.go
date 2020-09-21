@@ -3,6 +3,7 @@ package mysqlfunc
 import (
 	"database/sql"
 	"errors"
+	"strconv"
 	"strings"
 
 	// Need this to connect to mysql
@@ -32,8 +33,9 @@ var (
 )
 
 //Init to initiate db
-func Init(sqlStr string) error {
-	DB, err = sql.Open("mysql", sqlStr)
+func Init(id string, ps string, endpoint string, port int, schema string) error {
+
+	DB, err = sql.Open("mysql", id+":"+ps+"@tcp("+endpoint+":"+strconv.Itoa(port)+")/"+schema+"?multiStatements=true")
 	if err != nil {
 		return err
 	}
@@ -80,6 +82,15 @@ func GetQuery(queryStr string) (map[int]map[string]interface{}, error) {
 		a++
 	}
 	return tableData, nil
+}
+
+//ExecQuery just executes the query if you don't care about the return value. Return nil if success
+func ExecQuery(queryStr string) error {
+	_, err = DB.Exec(queryStr)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 // GetColNames to a get all column names
@@ -164,4 +175,13 @@ func InsertData(table string, dataNames []string, data []interface{}) error {
 		return err
 	}
 	return nil
+}
+
+// ClearTable Clears all data from a table, use with caution!
+func ClearTable(table string, resetIncrement bool) {
+	var dataNamesStr strings.Builder
+	dataNamesStr.WriteString("-- DELETE FROM ")
+	dataNamesStr.WriteString(table)
+	// -- DELETE FROM adiy.test;
+	// -- ALTER TABLE test AUTO_INCREMENT = 0
 }
