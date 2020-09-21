@@ -3,6 +3,7 @@ package mysqlfunc
 import (
 	"database/sql"
 	"errors"
+	"fmt"
 	"strconv"
 	"strings"
 
@@ -79,6 +80,9 @@ func GetQuery(queryStr string) (map[int]map[string]interface{}, error) {
 		}
 		tableData[a] = entry
 		a++
+	}
+	if len(tableData) == 0 {
+		return nil, errors.New("the query has no value")
 	}
 	return tableData, nil
 }
@@ -174,6 +178,44 @@ func InsertData(table string, dataNames []string, data []interface{}) error {
 		return err
 	}
 	return nil
+}
+
+// GetDataOf gets data of colNames from table
+func GetDataOf(table string, colNames []string) (map[int]map[string]interface{}, error) {
+	var b strings.Builder
+	b.WriteString("SELECT ")
+	for c, v := range colNames {
+		b.WriteString(v)
+		if c != len(colNames)-1 {
+			b.WriteString(",")
+		}
+	}
+	b.WriteString(" FROM ")
+	b.WriteString(table)
+	return GetQuery(b.String())
+}
+
+// GetDataOfWhere gets data that matches where. ex(where:="")
+func GetDataOfWhere(table string, colNames []string, where []string) (map[int]map[string]interface{}, error) {
+	var b strings.Builder
+	b.WriteString("SELECT ")
+	for c, v := range colNames {
+		b.WriteString(v)
+		if c != len(colNames)-1 {
+			b.WriteString(",")
+		}
+	}
+	b.WriteString(" FROM ")
+	b.WriteString(table)
+	b.WriteString(" WHERE ")
+	for c, v := range where {
+		b.WriteString(v)
+		if c != len(where)-1 {
+			b.WriteString(" AND ")
+		}
+	}
+	fmt.Printf(b.String())
+	return GetQuery(b.String())
 }
 
 // ClearTable Clears all data from a table. Use with caution!

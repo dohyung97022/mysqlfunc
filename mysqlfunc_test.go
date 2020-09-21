@@ -2,8 +2,32 @@ package mysqlfunc
 
 import (
 	"fmt"
+	"sync"
 	"testing"
 )
+
+func gorutineWorker() {
+	var wg sync.WaitGroup
+	for i := 0; i < 99; i++ {
+		fmt.Println("Main: Starting worker", i)
+		wg.Add(1)
+		go worker(&wg, i)
+	}
+	fmt.Println("Main: Waiting for workers to finish")
+	wg.Wait()
+	fmt.Println("Main: Completed")
+}
+func worker(wg *sync.WaitGroup, id int) {
+	defer wg.Done()
+
+	fmt.Printf("Worker %v: Started\n", id)
+	queryStr := "INSERT INTO test () VALUES (); SET @last_id = LAST_INSERT_ID(); INSERT INTO test2 (id) VALUES (@last_id);"
+	err = ExecQuery(queryStr)
+	if err != nil {
+		fmt.Printf("error : %v\n", err)
+	}
+	fmt.Printf("Worker %v: Finished\n", id)
+}
 
 func TestMain(t *testing.T) {
 
@@ -19,31 +43,11 @@ func TestMain(t *testing.T) {
 		fmt.Printf("error : %v\n", err)
 	}
 	defer DB.Close()
-
-	// err = ClearTable("test", true)
-	// if err != nil {
-	// 	fmt.Printf("error : %v\n", err)
-	// }
-
-	// var wg sync.WaitGroup
-	// for i := 0; i < 99; i++ {
-	// 	fmt.Println("Main: Starting worker", i)
-	// 	wg.Add(1)
-	// 	go worker(&wg, i)
-	// }
-	// fmt.Println("Main: Waiting for workers to finish")
-	// wg.Wait()
-	// fmt.Println("Main: Completed")
+	// queryStr := "SELECT chan_id,channel,chan_url FROM channels"
+	// select data1 data2 data3 FROM TEST1
+	v, err := GetDataOfWhere("channels", []string{"chan_id", "channel", "avr_views"}, []string{"chan_id = 2", "channel = 'fdasfd'"})
+	if err != nil {
+		fmt.Printf("error : %v\n", err)
+	}
+	fmt.Printf("v : %v\n", v)
 }
-
-// func worker(wg *sync.WaitGroup, id int) {
-// 	defer wg.Done()
-
-// 	fmt.Printf("Worker %v: Started\n", id)
-// 	queryStr := "INSERT INTO test () VALUES (); SET @last_id = LAST_INSERT_ID(); INSERT INTO test2 (id) VALUES (@last_id);"
-// 	err = ExecQuery(queryStr)
-// 	if err != nil {
-// 		fmt.Printf("error : %v\n", err)
-// 	}
-// 	fmt.Printf("Worker %v: Finished\n", id)
-// }

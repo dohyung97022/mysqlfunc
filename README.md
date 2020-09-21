@@ -49,6 +49,27 @@ queryStr := "SELECT * FROM my_table"
 v, err := mysqlfunc.GetQuery(queryStr) (map[int]map[string]interface{}, error)
 ```
 
+#### GetDataOf
+
+get Data of all the column name given from the array.
+
+```go
+colNames := []string{"id", "name", "age"}
+
+v, err := mysqlfunc.GetDataOf(table string, colNames []string) (map[int]map[string]interface{}, error)
+```
+
+#### GetDataOfWhere
+
+get Data of given colNames with the where condition
+
+```go
+colNames := []string{"id", "name", "age"}
+where:= []string{"id=1", "name='jhon'", "age=25"}
+
+v, err := mysqlfunc.GetDataOfWhere(table string, colNames []string, where string) (map[int]map[string]interface{}, error)
+```
+
 #### ExecQuery
 
 use this if you don't care about the return value and just want to execute (just a wrapper for DB.Exec)
