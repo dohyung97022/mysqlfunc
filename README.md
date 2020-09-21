@@ -51,8 +51,7 @@ v, err := mysqlfunc.GetQuery(queryStr) (map[int]map[string]interface{}, error)
 
 #### ExecQuery
 
-use this if you don't care about the return value and just want to execute  
-this is just a wrapper for DB.Exec
+use this if you don't care about the return value and just want to execute (just a wrapper for DB.Exec)
 
 ```go
 err := mysqlfunc.ExecQuery(queryStr) error
@@ -89,7 +88,7 @@ v, err := mysqlfunc.GetColNameTypes(table string) (map[string]string, error)
 #### ClearTable
 
 Clears all data from a table, use with caution!  
-Takes a boolean to check if you want the auto increment to reset to 1. (false in some cases like one to many)
+Takes a boolean to check if you want the auto increment to reset to 1. (false in some cases)
 
 ```go
 err := mysqlfunc.ClearTable(table string, resetIncrement bool) error
