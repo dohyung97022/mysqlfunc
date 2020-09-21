@@ -34,7 +34,6 @@ var (
 
 //Init to initiate db
 func Init(id string, ps string, endpoint string, port int, schema string) error {
-
 	DB, err = sql.Open("mysql", id+":"+ps+"@tcp("+endpoint+":"+strconv.Itoa(port)+")/"+schema+"?multiStatements=true")
 	if err != nil {
 		return err
@@ -177,11 +176,13 @@ func InsertData(table string, dataNames []string, data []interface{}) error {
 	return nil
 }
 
-// ClearTable Clears all data from a table, use with caution!
-func ClearTable(table string, resetIncrement bool) {
-	var dataNamesStr strings.Builder
-	dataNamesStr.WriteString("-- DELETE FROM ")
-	dataNamesStr.WriteString(table)
-	// -- DELETE FROM adiy.test;
-	// -- ALTER TABLE test AUTO_INCREMENT = 0
+// ClearTable Clears all data from a table. Use with caution!
+func ClearTable(table string, resetIncrement bool) error {
+	var q strings.Builder
+	q.WriteString("DELETE FROM ")
+	q.WriteString(table)
+	if resetIncrement {
+		q.WriteString("; ALTER TABLE test AUTO_INCREMENT = 0;")
+	}
+	return ExecQuery(q.String())
 }

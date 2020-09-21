@@ -17,8 +17,13 @@ import("github.com/dohyung97022/mysqlfunc")
 #### Initiate params
 
 ```go
-sqlStr := "username:password@tcp(post-aws-rds-database-endpoint:3306)/post-schema-name"
-err := mysqlfunc.Init(sqlStr)
+	id := "insert_id"
+	ps := "insert_ps"
+	endpoint := "projectname-db.cxdzwqqcqoib.us-east-1.rds.amazonaws.com"
+	port := 3306
+	schema := "schema_name"
+
+	err := Init(id, ps, endpoint, port, schema)
 ```
 
 #### Send params to functions
@@ -40,6 +45,7 @@ most basic way to get any data by query
 
 ```go
 queryStr := "SELECT * FROM my_table"
+
 v, err := mysqlfunc.GetQuery(queryStr) (map[int]map[string]interface{}, error)
 ```
 
@@ -60,6 +66,7 @@ Insert data to a table (DataNames and data must be in the same order)
 dataNames := []string{"abouts_varchar", "age_int", "birth_date_time", "male_bool"}
 var data []interface{}
 data = append(data, "Hello, world", 24, time.Now(), true)
+
 err = InsertData("test", dataNames, data) (error)
 ```
 
@@ -77,4 +84,13 @@ Get all column names and types
 
 ```go
 v, err := mysqlfunc.GetColNameTypes(table string) (map[string]string, error)
+```
+
+#### ClearTable
+
+Clears all data from a table, use with caution!  
+Takes a boolean to check if you want the auto increment to reset to 1. (false in some cases like one to many)
+
+```go
+err := mysqlfunc.ClearTable(table string, resetIncrement bool) error
 ```
