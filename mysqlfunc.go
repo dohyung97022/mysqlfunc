@@ -3,9 +3,10 @@ package mysqlfunc
 import (
 	"database/sql"
 	"errors"
-	"fmt"
+	"reflect"
 	"strconv"
 	"strings"
+	"time"
 
 	// Need this to connect to mysql
 	_ "github.com/go-sql-driver/mysql"
@@ -202,9 +203,8 @@ type Where struct {
 	b  interface{}
 }
 
-// GetDataOfWhere gets data that matches where. ex(where:="")
-//this needs fixing for sure. make a type. like "a" "is" "b"
-//  add '' into everyting. like string int datetime all sorts of things!
+// GetDataOfWhere gets col data that matches the array of where.
+// ex(whereArray := []Where{Where{a: "name", is: "=", b: "Jhon"}, Where{a: "age", is: ">", b: 19})
 func GetDataOfWhere(table string, colNames []string, where []Where) (map[int]map[string]interface{}, error) {
 	var b strings.Builder
 	b.WriteString("SELECT ")
@@ -222,21 +222,23 @@ func GetDataOfWhere(table string, colNames []string, where []Where) (map[int]map
 		b.WriteString(" ")
 		b.WriteString(v.is)
 		b.WriteString(" '")
-		switch v := v.b.(type) {
+		switch z := v.b.(type) {
 		case int:
-			fmt.Println("int:", v)
+			b.WriteString(strconv.Itoa(z))
 		case float64:
-			fmt.Println("float64:", v)
+			b.WriteString(strconv.FormatFloat(z, 'f', -1, 64))
+		case string:
+			b.WriteString(z)
+		case time.Time:
+			return nil, errors.New("time.Time in struct Where needs to be formatted. Use .Format()")
 		default:
-			fmt.Println("unknown")
+			return nil, errors.New("GetDataOfWhere needs a case Type of = " + reflect.TypeOf(z).String())
 		}
-		b.WriteString(v.b.(string))
 		b.WriteString("'")
 		if c != len(where)-1 {
 			b.WriteString(" AND ")
 		}
 	}
-	fmt.Printf(b.String())
 	return GetQuery(b.String())
 }
 

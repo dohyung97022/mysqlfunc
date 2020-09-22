@@ -61,13 +61,13 @@ v, err := mysqlfunc.GetDataOf(table string, colNames []string) (map[int]map[stri
 
 #### GetDataOfWhere
 
-get Data of given colNames with the where condition
+gets col data that matches the array of where.  
+The parameter 'is' must be string.
 
 ```go
-colNames := []string{"id", "name", "age"}
-where:= []string{"id=1", "name='jhon'", "age=25"}
+whereArray := []Where{Where{a: "name", is: "=", b: "Jhon"},Where{a: "age", is: ">", b: 19}}
 
-v, err := mysqlfunc.GetDataOfWhere(table string, colNames []string, where string) (map[int]map[string]interface{}, error)
+v, err := GetDataOfWhere("channels", []string{"chan_id", "channel", "last_update"}, whereArray) (map[int]map[string]interface{}, error)
 ```
 
 #### ExecQuery
