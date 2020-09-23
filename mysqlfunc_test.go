@@ -2,7 +2,6 @@ package mysqlfunc
 
 import (
 	"fmt"
-	"strings"
 	"sync"
 	"testing"
 )
@@ -54,10 +53,21 @@ func TestMain(t *testing.T) {
 	// 	fmt.Printf("error : %v\n", err)
 	// }
 	// fmt.Printf("v : %v\n", v)
+
+	// SELECT * FROM channels_views
+	// WHERE query = 'horror games'
+	// AND avr_views BETWEEN 2100 AND 3000
+	// AND subs BETWEEN 0 AND 3000
+
 	search := "horror games"
+	v, err := checkUpdateTime(search)
+	if err != nil {
+		fmt.Printf("error : %v\n", err)
+	}
+	fmt.Printf("v : %v\n", v)
 	subsMinMax := []string{"0"}
 	avrMinMax := []string{"2500"}
-	v, err := fetchADIY(search, subsMinMax, avrMinMax)
+	v, err = fetchChannels(search, subsMinMax, avrMinMax)
 	if err != nil {
 		fmt.Printf("error : %v\n", err)
 	}
@@ -66,35 +76,15 @@ func TestMain(t *testing.T) {
 	// time.Now().AddDate(0, 0, -1)
 	// fmt.Printf("v : %s\n", time.Now().AddDate(0, 0, -1).Format("2006-01-02 15:04:05"))
 }
-
-func fetchADIY(search string, subsMinMax []string, avrMinMax []string) (map[int]map[string]interface{}, error) {
-	var q strings.Builder
-	q.WriteString("SELECT c.chan_id, channel, subs, chan_url, c.last_update, chan_img, avr_views, about FROM search s JOIN search_channels sc ON s.srch_id = sc.srch_id JOIN channels c ON sc.chan_id = c.chan_id WHERE s.query = '")
-	q.WriteString(search)
-	q.WriteString("'")
-	if len(subsMinMax) > 0 {
-		q.WriteString(" AND c.subs")
-		if len(subsMinMax) == 2 {
-			q.WriteString(" BETWEEN ")
-			q.WriteString(subsMinMax[0])
-			q.WriteString(" AND ")
-			q.WriteString(subsMinMax[1])
-		} else {
-			q.WriteString(" >= ")
-			q.WriteString(subsMinMax[0])
-		}
-	}
-	if len(avrMinMax) > 0 {
-		q.WriteString(" AND c.avr_views")
-		if len(avrMinMax) == 2 {
-			q.WriteString(" BETWEEN ")
-			q.WriteString(avrMinMax[0])
-			q.WriteString(" AND ")
-			q.WriteString(avrMinMax[1])
-		} else {
-			q.WriteString(" >= ")
-			q.WriteString(avrMinMax[0])
-		}
-	}
-	return GetQuery(q.String())
+func checkUpdateTime(search string) (map[int]map[string]interface{}, error) {
+	whereArray := []Where{
+		Where{a: "query", is: "=", b: search}}
+	return GetDataOfWhere("search", []string{"last_update"}, whereArray)
+}
+func fetchChannels(search string, subsMinMax []string, avrMinMax []string) (map[int]map[string]interface{}, error) {
+	whereArray := []Where{
+		Where{a: "query", is: "=", b: search},
+		Where{a: "avr_views", is: ">", b: 2000},
+		Where{a: "subs", is: "=", b: 0}}
+	return GetDataOfWhere("channels_views", []string{"*"}, whereArray)
 }
