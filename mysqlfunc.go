@@ -82,9 +82,6 @@ func GetQuery(queryStr string) (map[int]map[string]interface{}, error) {
 		tableData[a] = entry
 		a++
 	}
-	if len(tableData) == 0 {
-		return nil, errors.New("the query has no value")
-	}
 	return tableData, nil
 }
 
