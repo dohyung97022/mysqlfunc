@@ -84,8 +84,7 @@ Insert data to a table (DataNames and data must be in the same order)
 
 ```go
 dataNames := []string{"abouts_varchar", "age_int", "birth_date_time", "male_bool"}
-var data []interface{}
-data = append(data, "Hello, world", 24, time.Now(), true)
+data := []interface{}{"Hello, world", 24, time.Now(), true}
 
 err = InsertData("test", dataNames, data) (error)
 ```
