@@ -198,9 +198,9 @@ func GetDataOf(table string, colNames []string) (map[int]map[string]interface{},
 
 // Where query
 type Where struct {
-	a  string
-	is string
-	b  interface{}
+	A  string
+	IS string
+	B  interface{}
 }
 
 // GetDataOfWhere gets col data that matches the array of where.
@@ -218,11 +218,11 @@ func GetDataOfWhere(table string, colNames []string, where []Where) (map[int]map
 	b.WriteString(table)
 	b.WriteString(" WHERE ")
 	for c, v := range where {
-		b.WriteString(v.a)
+		b.WriteString(v.A)
 		b.WriteString(" ")
-		b.WriteString(v.is)
+		b.WriteString(v.IS)
 		b.WriteString(" '")
-		switch z := v.b.(type) {
+		switch z := v.B.(type) {
 		case int:
 			b.WriteString(strconv.Itoa(z))
 		case float64:
