@@ -34,3 +34,8 @@ ALTER TABLE test AUTO_INCREMENT = 0
 aws rds max_connection 제한과 변경방
 https://serverfault.com/questions/862387/aws-rds-connection-limits
 인스턴스에 변경 불가능한 mysqlx_max_connections이 있어서 이거에 맞춰야 구매해야 한다니 ㅜㅜ
+
+뷰 channels_views의 설정
+ALTER VIEW channels_views
+AS select c.channel AS channel, c.chan_url AS chan_url, c.last_update AS last_update, c.chan_img AS chan_img, c.avr_views AS avr_views, c.subs AS subs, c.about AS about, s.query AS query 
+FROM ((adiy.search s join adiy.search_channels sc on((s.srch_id = sc.srch_id))) join adiy.channels c on((sc.channel = c.channel)));
